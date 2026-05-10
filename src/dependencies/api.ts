@@ -48,3 +48,22 @@ export async function getDefinition(word: string): Promise<string> {
 
   return definition
 }
+
+export async function getValidWordAndDefinition(): Promise<{
+  word: string
+  definition: string
+}> {
+
+  while (true) {
+    try {
+      const word = await getRandomWord()
+      const definition = await getDefinition(word)
+
+      return { word, definition }
+
+    } catch {
+      // silently retry
+      continue
+    }
+  }
+}

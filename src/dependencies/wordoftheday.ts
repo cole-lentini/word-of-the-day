@@ -1,3 +1,5 @@
+import { createChangeWordButton } from "./changewordoftheday"
+
 export function createWordPage(word: string, definition: string): HTMLElement {
   const container = document.createElement("div")
   container.className = "word-page"
@@ -14,9 +16,12 @@ export function createWordPage(word: string, definition: string): HTMLElement {
   defEl.className = "word-definition"
   defEl.textContent = definition
 
+  const changeWordButton = createChangeWordButton();
+
   container.appendChild(label)
   container.appendChild(wordEl)
   container.appendChild(defEl)
+  container.appendChild(changeWordButton);
 
   return container
 }

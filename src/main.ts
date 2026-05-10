@@ -1,6 +1,6 @@
 import './style.css'
 import { createLoadingScreen, animateLoadingBar } from './loadingscreen.ts'
-import { getRandomWord, getDefinition } from './dependencies/api.ts'
+import { getValidWordAndDefinition } from './dependencies/api.ts'
 import { createWordPage } from './dependencies/wordoftheday.ts'
 import { getCachedWord, saveWord } from './dependencies/cache.ts'
 
@@ -24,8 +24,7 @@ async function run() {
       word = cached.word
       definition = cached.definition
     } else {
-      word = await getRandomWord()
-      definition = await getDefinition(word)
+      const { word, definition } = await getValidWordAndDefinition()
 
       saveWord(word, definition)
     }
