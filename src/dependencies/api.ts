@@ -1,31 +1,32 @@
+import pluralize from 'pluralize';
+
 export async function getRandomWord(retries = 3): Promise<string> {
   try {
     const res = await fetch(
-      "https://random-words-api.kushcreates.com/api?language=en&firstletter=" +
-      getRandomLetter()
+      "https://random-words-api.kushcreates.com/api?language=en&firstletter=" + getRandomLetter()
     )
 
-    if (!res.ok) throw new Error("bad response")
+    if (!res.ok) throw new Error("bad response");
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (!Array.isArray(data) || data.length === 0) {
-      throw new Error("empty response")
+      throw new Error("empty response");
     }
 
-    return data[Math.floor(Math.random() * data.length)].word
+    return data[Math.floor(Math.random() * data.length)].word;
 
   } catch (err) {
     if (retries > 0) {
-      return getRandomWord(retries - 1)
+      return getRandomWord(retries - 1);
     }
     throw err
   }
 }
 
 export function getRandomLetter(): string {
-  const letters = "abcdefghijklmnopqrstuvwxyz"
-  return letters[Math.floor(Math.random() * letters.length)]
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  return letters[Math.floor(Math.random() * letters.length)];
 }
 
 export async function getDefinition(word: string): Promise<string> {
@@ -34,19 +35,18 @@ export async function getDefinition(word: string): Promise<string> {
   )
 
   if (!res.ok) {
-    throw new Error("Failed to fetch definition")
+    throw new Error("Failed to fetch definition");
   }
 
-  const data = await res.json()
+  const data = await res.json();
 
-  const definition =
-    data?.[0]?.meanings?.[0]?.definitions?.[0]?.definition
+  const definition = data?.[0]?.meanings?.[0]?.definitions?.[0]?.definition;
 
   if (!definition) {
-    throw new Error("No valid definition")
+    throw new Error("No valid definition");
   }
 
-  return definition
+  return definition;
 }
 
 export async function getValidWordAndDefinition(): Promise<{
@@ -54,16 +54,23 @@ export async function getValidWordAndDefinition(): Promise<{
   definition: string
 }> {
 
+  const app = document.getElementById('app')!
+
   while (true) {
     try {
-      const word = await getRandomWord()
-      const definition = await getDefinition(word)
+      let word = await getRandomWord();
 
-      return { word, definition }
+      if (pluralize.isPlural(word)) {
+        word = word.slice(0, -1);
+      }
+
+      const definition = await getDefinition(word);
+
+      return { word, definition };
 
     } catch {
       // silently retry
-      continue
+      continue;
     }
   }
 }

@@ -10,8 +10,12 @@
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
+    "@types/pluralize": "^0.0.33",
     "gh-pages": "^6.3.0",
     "typescript": "~6.0.2",
     "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "pluralize": "^8.0.0"
   }
 }

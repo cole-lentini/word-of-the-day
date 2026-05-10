@@ -1,29 +1,29 @@
 export function createLoadingScreen(): HTMLElement {
-  const overlay = document.createElement("div")
-  overlay.id = "loading-screen"
+  const overlay = document.createElement("div");
+  overlay.id = "loading-screen";
 
-  const container = document.createElement("div")
-  container.className = "loader-container"
+  const container = document.createElement("div");
+  container.className = "loader-container";
 
   // Loading text
-  const text = document.createElement("div")
-  text.className = "loading-text"
-  text.textContent = "Loading word of the day"
+  const text = document.createElement("div");
+  text.className = "loading-text";
+  text.textContent = "Loading word of the day";
 
   // Progress bar
-  const barOuter = document.createElement("div")
-  barOuter.className = "progress-bar"
+  const barOuter = document.createElement("div");
+  barOuter.className = "progress-bar";
 
-  const barInner = document.createElement("div")
-  barInner.className = "progress-fill"
+  const barInner = document.createElement("div");
+  barInner.className = "progress-fill";
 
-  barOuter.appendChild(barInner)
+  barOuter.appendChild(barInner);
 
-  container.appendChild(text)
-  container.appendChild(barOuter)
-  overlay.appendChild(container)
+  container.appendChild(text);
+  container.appendChild(barOuter);
+  overlay.appendChild(container);
 
-  return overlay
+  return overlay;
 }
 
 // Helper to animate progress
@@ -32,20 +32,20 @@ export function animateLoadingBar(
   duration: number,
   onDone?: () => void
 ) {
-  let start: number | null = null
+  let start: number | null = null;
 
   function step(t: number) {
-    if (!start) start = t
+    if (!start) start = t;
 
-    const p = Math.min((t - start) / duration, 1)
-    bar.style.width = `${p * 100}%`
+    const p = Math.min((t - start) / duration, 1);
+    bar.style.width = `${p * 100}%`;
 
     if (p < 1) {
-      requestAnimationFrame(step)
+      requestAnimationFrame(step);
     } else {
-      onDone?.()
+      onDone?.();
     }
   }
 
-  requestAnimationFrame(step)
+  requestAnimationFrame(step);
 }
